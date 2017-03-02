@@ -1,0 +1,10 @@
+[
+    {
+        "caption": "BackgroundColorEdit: Set Background Color",
+        "command": "edit_background_color"
+    },
+    {
+        "caption": "BackgroundColorEdit: Show Background Color",
+        "command": "show_background_color"
+    }
+]

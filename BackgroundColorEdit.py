@@ -3,6 +3,7 @@ import sublime_plugin
 
 import plistlib
 import re
+import os.path as path
 
 class EditBackgroundColorCommand(sublime_plugin.WindowCommand):
     def run(self):
@@ -10,24 +11,32 @@ class EditBackgroundColorCommand(sublime_plugin.WindowCommand):
 
 class ShowBackgroundColorCommand(sublime_plugin.WindowCommand):
     def run(self):
-        currentThemeName = str.lstrip(
-            sublime.load_settings('Preferences.sublime-settings').get('color_scheme', ''), 'Packages')
+        currentSchemePath = getCurrentSchemePath()
 
-        currentThemePath = sublime.packages_path() + currentThemeName
+        if path.isfile(currentSchemePath):
+            tree = plistlib.readPlist(currentSchemePath)
+            sublime.active_window().status_message(
+                "Current background color: " + tree['settings'][0]['settings']['background'])
 
-        tree = plistlib.readPlist(currentThemePath)
-        sublime.active_window().status_message(
-            "Current background color: " + tree['settings'][0]['settings']['background'])
+        else:
+            sublime.active_window().status_message("The current color scheme is not supported.")
 
 def change_background_color(userInput):
     match = re.search(r'^#(?:[0-9a-fA-F]{1,2}){3}$', userInput)
 
     if match:
-        currentThemeName = str.lstrip(
-            sublime.load_settings('Preferences.sublime-settings').get('color_scheme', ''), 'Packages')
+        currentSchemePath = getCurrentSchemePath()
 
-        currentThemePath = sublime.packages_path() + currentThemeName
+        if path.isfile(currentSchemePath):
+            tree = plistlib.readPlist(currentSchemePath)
+            tree['settings'][0]['settings']['background'] = userInput
+            plistlib.writePlist(tree, currentSchemePath)
 
-        tree = plistlib.readPlist(currentThemePath)
-        tree['settings'][0]['settings']['background'] = userInput
-        plistlib.writePlist(tree, currentThemePath)
+        else:
+            sublime.active_window().status_message("The current color scheme is not supported.")
+
+def getCurrentSchemePath():
+    currentSchemeName = str.lstrip(
+    sublime.load_settings('Preferences.sublime-settings').get('color_scheme', ''), 'Packages')
+
+    return sublime.packages_path() + currentSchemeName

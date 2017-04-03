@@ -1,6 +1,6 @@
 # BackgroundColorEdit
 
-<div style='position:relative;padding-bottom:53%'><iframe src='https://gfycat.com/ifr/TepidUnfoldedBorzoi' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe></div>
+<p align="center"><img src="https://zippy.gfycat.com/TepidUnfoldedBorzoi.gif" alt="BackgroundColorEdit"></p>
 
 Allows you to quickly and easily change only the background color of the currently active color scheme in Sublime Text 3.
 
